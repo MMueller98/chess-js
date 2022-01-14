@@ -1,0 +1,36 @@
+body{
+    --square-height: 75px;
+    --square-width: 75px;
+}
+
+#chess-board{
+    border: black;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column-reverse;
+
+}
+
+.square-general{
+    width: var(--square-width);
+    height: var(--square-height);
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+
+.square-black{
+    background-color: #b58863;
+    
+}
+
+.square-white{
+    background-color: #f0d9b5;
+}
+
+.board-line{
+    display: flex;
+    flex-direction: row;
+}

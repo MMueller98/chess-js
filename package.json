@@ -1,0 +1,19 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MMueller98/chess-js.git"
+  },
+  "author": "Marius Müller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MMueller98/chess-js/issues"
+  },
+  "homepage": "https://github.com/MMueller98/chess-js#readme"
+}
