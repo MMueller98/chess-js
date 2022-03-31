@@ -1,0 +1,116 @@
+* Verbindung zwischen Server und Client via WebSocket herstellen
+
+* Server initialisiert Spiel und liefert Spielbrett an Client aus 
+
+* Spielbrett: 
+	** HTML-Div-Elemente
+		*** verschieden eingefärbt 
+		*** clickable
+	** Klickt man auf Feld und eine Figur steht auf diesem Feld, wird Feld markiert 
+		*** klick auf Feld auf das sich Figur bewegen darf -> Figur wird bewegt
+		*** klick auf Feld auf das sich Figur nicht bewegen darf -> Fokus wird aufgehoben
+		*** klick auf eigene Figur -> Fokus wird aufgehoben 
+	** Wird zur Verarbeitung als 8x8-Matrix kommuniziert
+		*** Zelle Enthält entweder Objekt der Klasse Figur oder der Klasse Empty-Square
+
+
+
+* Zug-Validierung: 
+	** Client sendet das neue Spielbrett als JSON-Datei an Server
+	** Server überprüft, ob alle Figuren
+
+
+===============================================================================================================
+KLASSEN:
+===============================================================================================================
+
+* Main: 
+	** Wird auf Hautpseite ausgeführt 
+	** Verwaltet Event- und Click-Listener 
+		*** Button für Spielstart
+		*** Anzeige welcher Spieler an der Reihe ist
+		*** Click-Listener für Squares 
+			**** Angeclickte Felder werden hervorgehoben 
+			**** Es könnne nur Felder hervorgehoben werden, auf denen eine Figur des Spielers steht, der
+			     gerade an der Reihe ist 
+			     -> Abfrage des Attribute currentTurn der Instanz Spiel 
+	** Erzeugt Websockets
+	** Verwaltet anzeige, welcher Spieler an der Reihe ist
+		*** Es können nur Figuren ausgewählt werden, die "an der Reihe sind"
+	** Erzeugt neue Instanz der Klasse Spiel
+		*** Startet Spiel 
+		*** Verwaltet Züge der Spieler 
+			**** Wenn Spieler zieht wird Zuganfrage an Spiel-Instanz gesendet
+			**** Spiel-Instanz anwortet mit true/false
+				***** Wenn Zuganfrage angenommen, dann wird Zug (grafisch) ausgeführt -> movePiece() 
+				      -> nextTurn wird anschließend ausgeführt 
+				***** Wenn Zugabfrage abgelehnt wird Zug nicht ausgeführt
+
+
+	** ATTRIBUTE: 
+		webSocket
+		Instanz der Klasse Spiel 
+		currentTurn
+		
+		
+	** METHODEN: 
+		setEventListener()
+		setClickListener() 
+		movePiece() 
+		nextTurn()
+	
+
+
+===============================================================================================================	
+	
+
+* Spiel: 
+	** Main-Klasse bekommt Zuganfrage von Spieler und ruft checktTurn() auf
+		*** Überprüft ob Zug legal ist 
+		*** Falls ja, gib true zurück und update Spielbrett 
+		*** Falls nein, gib Meldung an Spieler auf und update Spielbrett nicht 
+ 
+	** Attribute: 
+		*** Spielbrett 
+		*** currentTurn
+	** Methoden: 
+		*** checkTurn()
+
+
+
+
+===============================================================================================================
+* Spielbrett
+	** 8x8-Matrix mit allen Spielfeldern
+	** Auf jedem Feld entweder eine Figur oder Empty
+	
+	** ATTRIBUTE: 
+		*** spielerWeiß
+		*** spielerSchwarz
+		*** Spielbrett -> 8x8-Matrix
+
+
+===============================================================================================================
+* Figur
+	** ATTRIBUTE:
+		*** Type
+		*** Color
+		*** Aktuelle Position
+		*** Vorherige Posotion 
+
+	** METHODEN: 
+
+* AbstractFigure
+	** darf sich bewegen, wenn dadurch nicht der eigene König exponiert wird
+	** darf sich nur innerhalb des Spielbretts bewegen
+	** darf sich nur auf ein Feld bewegen, wenn dort keine eigene Figur steht 
+
+* Bauer
+	
+	** darf nur nach vorne ziehen
+	** darf nur ziehen, wenn keine andere Figur im Weg steht 
+		** darf zwei Felder nach vorne wenn er noch auf Start-Position steht
+		** darf ein Feld nach vorne sonst 
+	** darf on-passent schlagen
+
+* Turm:  
